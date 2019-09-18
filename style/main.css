@@ -113,8 +113,8 @@ body {
 
 @media (max-width: 800px) {
     .palette_block {
-        height: 24px; 
-        width: 24px;
+        height: 21px; 
+        width: 21px;
         margin-right: 2px;
         margin-left: 2px;
         display: flex;
@@ -132,18 +132,18 @@ body {
     }
     
     .color-active {
-        height: 21px; 
-        width: 21px;
+        height: 20px; 
+        width: 20px;
         border: 2px solid #fff;
     }
     .palette_color:hover {
-        height: 21px; 
-        width: 21px;
+        height: 20px; 
+        width: 20px;
     }
     
     .color-active:hover {
-        height: 21px !important; 
-        width: 21px !important;
+        height: 20px !important; 
+        width: 20px !important;
     }
     
 }

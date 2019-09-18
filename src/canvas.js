@@ -4,10 +4,6 @@ class ZonaDraw {
 
         this.sizePixel = 15;
 
-        this.scal = 1;
-        this.maxScal = 4;
-        this.minScal = 0.6;
-
         this.canvas = option.canvas;
         this.ctx = this.canvas.getContext('2d', {alpha: false});
 
@@ -16,8 +12,10 @@ class ZonaDraw {
 
         this.palette = option.palette;
 
+        this.bgc = '#000000';
+
         this.canvas.addEventListener('mousedown', this.eventMouse.bind(this));
-        this.canvas.addEventListener('wheel', this.scaling.bind(this));
+        // this.canvas.addEventListener('wheel', this.scaling.bind(this));
 
         window.onresize = this.updateSizeCanvas.bind(this);
         
@@ -28,10 +26,16 @@ class ZonaDraw {
     }
 
     updateSizeCanvas() {
-        this.w = canvas.width = window.innerWidth * this.scal;
-        this.h = canvas.height = window.innerHeight * this.scal;
+        this.w = canvas.width = window.innerWidth;
+        this.h = canvas.height = window.innerHeight;
 
         this.drawPixels();
+    }
+
+    deletePixel(x, y) {
+        this.arrDraw = this.arrDraw.filter(item => {
+            return !(item.x == x && item.y == y) && item.color != this.bgc;
+        });
     }
 
     eventMouse(e) {
@@ -61,9 +65,14 @@ class ZonaDraw {
 
         this.canvas.onmouseup = (event) => {
             if (click) {
+                x = Math.floor((x - this.camera.x) / this.sizePixel) * this.sizePixel;
+                y = Math.floor((y - this.camera.y) / this.sizePixel) * this.sizePixel;
+
+                this.deletePixel(x, y);
+
                 this.arrDraw.push({
-                    x: Math.floor((x * this.scal - this.camera.x) / this.sizePixel) * this.sizePixel,
-                    y: Math.floor((y * this.scal - this.camera.y) / this.sizePixel) * this.sizePixel,
+                    x,
+                    y,
                     color: this.palette.getColor
                 });
 
@@ -74,21 +83,9 @@ class ZonaDraw {
             this.canvas.onmousemove = null;
         }
     }
+    
 
-    scaling(e) {
-        if (e.deltaY < 0) {
-            if (this.scal > this.minScal) {
-                this.scal = +(this.scal - 0.1).toFixed(1);
-            }
-        } else {
-            if (this.scal < this.maxScal) {
-                this.scal = +(this.scal + 0.1).toFixed(1);
-            }
-        }
-        
-        this.updateSizeCanvas();
-        this.drawPixels();
-    }
+    // scaling(e) {}
 
     drawPixels() {
         this.resetScreen();
@@ -99,7 +96,7 @@ class ZonaDraw {
     }
 
     resetScreen() {
-        this.ctx.fillStyle = '#000';
+        this.ctx.fillStyle = this.bgc;
         this.ctx.fillRect(0, 0, this.w, this.h);
     }
 }
