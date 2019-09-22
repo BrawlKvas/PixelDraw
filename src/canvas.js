@@ -1,5 +1,6 @@
 class ZonaDraw {
     constructor(option) {
+        this.socket = option.socket;
         this.arrDraw = [];
 
         this.sizePixel = 15;
@@ -23,6 +24,12 @@ class ZonaDraw {
             x: 0,
             y: 0
         }
+
+        this.socket.on('uploadToClient', (data) => {
+            this.arrDraw = data.data;
+        
+            this.drawPixels();
+        });
     }
 
     updateSizeCanvas() {
@@ -30,6 +37,10 @@ class ZonaDraw {
         this.h = canvas.height = window.innerHeight;
 
         this.drawPixels();
+    }
+
+    uploadToServer() {
+        this.socket.emit('uploadToServer', this.arrDraw);
     }
 
     deletePixel(x, y) {
@@ -76,7 +87,7 @@ class ZonaDraw {
                     color: this.palette.getColor
                 });
 
-                this.drawPixels();
+                this.uploadToServer();
             }
             
             document.body.style.cursor = 'auto';

@@ -1,13 +1,25 @@
 let express = require('express');
-let socket = require('socket.io');
-let app = express();
 
-appr.use("/", express.static(__dirname));
+let app = express();
+app.use(express.static(__dirname));
+
+let server = require('http').createServer(app);
+server.listen(8000);
+
+let io = require('socket.io').listen(server);
 
 app.get('/', (req, res) => {
-    res.send('./index.html');
+    res.sendFile(__dirname + '/index.html');
 });
 
-app.listen(3000, () => {
-  console.log('Example app listening on port 3000!');
+let bd = [];
+
+io.sockets.on('connection', (socket) => {
+    io.sockets.emit('uploadToClient', {data: bd});
+
+    socket.on('uploadToServer', (data) => {
+        bd = data;
+        io.sockets.emit('uploadToClient', {data: bd});
+        console.log(bd.length);
+    });
 });

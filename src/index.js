@@ -10,8 +10,7 @@ let palette = new Palette({
 
 let canvas = new ZonaDraw({
      canvas: document.getElementById('canvas'),
-     palette: palette
+     palette: palette,
+     socket: io.connect()
 });
 
-// 1) Оптимизация (Пиксель на пиксель)
-// 2) Сделать перемещение для мобилок
