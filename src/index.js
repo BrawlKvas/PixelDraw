@@ -14,3 +14,6 @@ let canvas = new ZonaDraw({
      socket: io.connect()
 });
 
+// Перемещение для мобилок
+// Время перезарядки
+
