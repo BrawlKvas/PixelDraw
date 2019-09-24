@@ -4,7 +4,7 @@ let app = express();
 app.use(express.static(__dirname));
 
 let server = require('http').createServer(app);
-server.listen(8000);
+server.listen(80);
 
 let io = require('socket.io').listen(server);
 
@@ -20,6 +20,5 @@ io.sockets.on('connection', (socket) => {
     socket.on('uploadToServer', (data) => {
         bd = data;
         io.sockets.emit('uploadToClient', {data: bd});
-        console.log(bd.length);
     });
 });
