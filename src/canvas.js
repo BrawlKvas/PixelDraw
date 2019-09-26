@@ -16,6 +16,7 @@ class ZonaDraw {
         this.bgc = '#000000';
 
         this.canvas.addEventListener('mousedown', this.eventMouse.bind(this));
+        this.canvas.addEventListener('touchstart', this.eventMouse.bind(this));
         // this.canvas.addEventListener('wheel', this.scaling.bind(this));
 
         window.onresize = this.updateSizeCanvas.bind(this);
@@ -93,6 +94,13 @@ class ZonaDraw {
             document.body.style.cursor = 'auto';
             this.canvas.onmousemove = null;
         }
+    }
+
+    eventTouch(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        console.log(e.changedTouches[0].pageX);
     }
     
 

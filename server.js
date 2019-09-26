@@ -21,4 +21,16 @@ io.sockets.on('connection', (socket) => {
         bd = data;
         io.sockets.emit('uploadToClient', {data: bd});
     });
+
+    socket.on('adminCommand', (data) => {
+        switch (data) {
+            case 'clear screen':
+                bd = [];
+                io.sockets.emit('uploadToClient', {data: bd});
+                break;
+            case 'length bd':
+                console.log(bd.length);
+                break;
+        }
+    });
 });
