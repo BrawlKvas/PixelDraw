@@ -1,2 +1,2 @@
 # pixelDraw
-badscript.ru
+http://badscript.ru
