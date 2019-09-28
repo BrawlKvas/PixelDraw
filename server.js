@@ -1,4 +1,5 @@
 let express = require('express');
+let fs = require('fs');
 
 let app = express();
 app.use(express.static(__dirname));
@@ -23,14 +24,28 @@ io.sockets.on('connection', (socket) => {
     });
 
     socket.on('adminCommand', (data) => {
-        switch (data) {
-            case 'clear screen':
-                bd = [];
-                io.sockets.emit('uploadToClient', {data: bd});
-                break;
-            case 'length bd':
-                console.log(bd.length);
-                break;
+        if (data.slice(0, 5) == 'save ') {
+            saveBd(data.slice(5));
+        } else if (data.slice(0, 5) == 'load ') {
+            loadBd(data.slice(5));
+        } else if (data == 'cls bd') {
+            bd = [];
+            io.sockets.emit('uploadToClient', {data: bd});
+        } else if (data == 'length bd') {
+            console.log(bd.length);
+        } else if (data == 'cls') {
+            console.clear();
         }
     });
 });
+
+function saveBd(nameFile) {
+    fs.writeFile(nameFile, JSON.stringify(bd), (err, data) => {});
+}
+
+function loadBd(nameFile) {
+    fs.readFile(nameFile, 'utf8', (err, data) => {
+        bd = JSON.parse(data);
+        io.sockets.emit('uploadToClient', {data: bd});
+    });
+}
