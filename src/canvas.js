@@ -15,9 +15,10 @@ class ZonaDraw {
 
         this.bgc = '#000000';
 
+        this.coordinatePanel = document.getElementById('coordinatePanel');
+        document.addEventListener('mousemove', this.initCoordinate.bind(this));
+
         this.canvas.addEventListener('mousedown', this.eventMouse.bind(this));
-        this.canvas.addEventListener('touchstart', this.eventMouse.bind(this));
-        // this.canvas.addEventListener('wheel', this.scaling.bind(this));
 
         window.onresize = this.updateSizeCanvas.bind(this);
         
@@ -94,17 +95,11 @@ class ZonaDraw {
             document.body.style.cursor = 'auto';
             this.canvas.onmousemove = null;
         }
+    } 
+
+    initCoordinate(e) {
+        this.coordinatePanel.innerHTML = `X:${e.clientX - this.camera.x} Y:${e.clientY - this.camera.y}`;
     }
-
-    eventTouch(e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        console.log(e.changedTouches[0].pageX);
-    }
-    
-
-    // scaling(e) {}
 
     drawPixels() {
         this.resetScreen();
