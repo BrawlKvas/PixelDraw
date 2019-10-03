@@ -99,6 +99,15 @@ class ZonaDraw {
 
     initCoordinate(e) {
         this.coordinatePanel.innerHTML = `X:${e.clientX - this.camera.x} Y:${e.clientY - this.camera.y}`;
+
+        this.strokePixel(e.clientX, e.clientY);
+    }
+
+    strokePixel(x, y) {
+        this.drawPixels();
+        this.ctx.strokeStyle = 'white';
+        this.ctx.lineWidth = 2;
+        this.ctx.strokeRect(Math.floor(x / this.sizePixel) * this.sizePixel, Math.floor(y / this.sizePixel) * this.sizePixel, this.sizePixel, this.sizePixel);
     }
 
     drawPixels() {
