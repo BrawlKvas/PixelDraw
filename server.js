@@ -16,11 +16,11 @@ app.get('/', (req, res) => {
 let bd = [];
 
 io.sockets.on('connection', (socket) => {
-    io.sockets.emit('uploadToClient', {data: bd});
+    io.sockets.emit('uploadToClient', { data: bd });
 
     socket.on('uploadToServer', (data) => {
         bd = data;
-        io.sockets.emit('uploadToClient', {data: bd});
+        io.sockets.emit('uploadToClient', { data: bd });
     });
 
     socket.on('adminCommand', (data) => {
@@ -30,7 +30,7 @@ io.sockets.on('connection', (socket) => {
             loadBd(data.slice(5));
         } else if (data == 'cls bd') {
             bd = [];
-            io.sockets.emit('uploadToClient', {data: bd});
+            io.sockets.emit('uploadToClient', { data: bd });
         } else if (data == 'length bd') {
             console.log(bd.length);
         } else if (data == 'cls') {
@@ -40,12 +40,16 @@ io.sockets.on('connection', (socket) => {
 });
 
 function saveBd(nameFile) {
-    fs.writeFile(nameFile, JSON.stringify(bd), (err, data) => {});
+    fs.writeFile(nameFile, JSON.stringify(bd), (err, data) => { });
 }
 
 function loadBd(nameFile) {
     fs.readFile(nameFile, 'utf8', (err, data) => {
-        bd = JSON.parse(data);
-        io.sockets.emit('uploadToClient', {data: bd});
+        try {
+            bd = JSON.parse(data);
+            io.sockets.emit('uploadToClient', { data: bd });
+        } catch (e) {
+            //
+        }
     });
 }

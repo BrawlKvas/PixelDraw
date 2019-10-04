@@ -11,17 +11,16 @@ let palette = new Palette({
      selectedElement: p.children[0].children[0],
 });
 
-let c = new AdminConsole({
-     socket
-});
-
 let canvas = new ZonaDraw({
      canvas: document.getElementById('canvas'),
+     canvasUp: document.getElementById('canvasUp'),
      palette: palette,
      socket 
 });
 
-
+let c = new AdminConsole({
+     socket
+});
 
 document.body.append(c.render());
 

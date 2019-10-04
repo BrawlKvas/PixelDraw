@@ -6,7 +6,10 @@ class ZonaDraw {
         this.sizePixel = 15;
 
         this.canvas = option.canvas;
-        this.ctx = this.canvas.getContext('2d', {alpha: false});
+        this.ctx = this.canvas.getContext('2d', { alpha: false });
+
+        this.canvasUp = option.canvasUp;
+        this.ctxUp = this.canvasUp.getContext('2d');
 
         this.updateSizeCanvas();
         this.resetScreen();
@@ -18,10 +21,10 @@ class ZonaDraw {
         this.coordinatePanel = document.getElementById('coordinatePanel');
         document.addEventListener('mousemove', this.initCoordinate.bind(this));
 
-        this.canvas.addEventListener('mousedown', this.eventMouse.bind(this));
+        this.canvasUp.addEventListener('mousedown', this.eventMouse.bind(this));
 
         window.onresize = this.updateSizeCanvas.bind(this);
-        
+
         this.camera = {
             x: 0,
             y: 0
@@ -29,14 +32,14 @@ class ZonaDraw {
 
         this.socket.on('uploadToClient', (data) => {
             this.arrDraw = data.data;
-        
+
             this.drawPixels();
         });
     }
 
     updateSizeCanvas() {
-        this.w = canvas.width = window.innerWidth;
-        this.h = canvas.height = window.innerHeight;
+        this.w = this.canvas.width = this.canvasUp.width = window.innerWidth;
+        this.h = this.canvas.height = this.canvasUp.height = window.innerHeight;
 
         this.drawPixels();
     }
@@ -60,7 +63,7 @@ class ZonaDraw {
         let lastX = x;
         let lastY = y;
 
-        this.canvas.onmousemove = (event) => {
+        this.canvasUp.onmousemove = (event) => {
             if (Math.abs(x - event.clientX) > 8 || Math.abs(y - event.clientY) > 8) {
                 document.body.style.cursor = 'move';
                 click = false;
@@ -76,7 +79,7 @@ class ZonaDraw {
             }
         }
 
-        this.canvas.onmouseup = (event) => {
+        this.canvasUp.onmouseup = (event) => {
             if (click) {
                 x = Math.floor((x - this.camera.x) / this.sizePixel) * this.sizePixel;
                 y = Math.floor((y - this.camera.y) / this.sizePixel) * this.sizePixel;
@@ -91,11 +94,11 @@ class ZonaDraw {
 
                 this.uploadToServer();
             }
-            
+
             document.body.style.cursor = 'auto';
-            this.canvas.onmousemove = null;
+            this.canvasUp.onmousemove = null;
         }
-    } 
+    }
 
     initCoordinate(e) {
         this.coordinatePanel.innerHTML = `X:${e.clientX - this.camera.x} Y:${e.clientY - this.camera.y}`;
@@ -104,10 +107,10 @@ class ZonaDraw {
     }
 
     strokePixel(x, y) {
-        this.drawPixels();
-        this.ctx.strokeStyle = 'white';
-        this.ctx.lineWidth = 2;
-        this.ctx.strokeRect(Math.floor(x / this.sizePixel) * this.sizePixel, Math.floor(y / this.sizePixel) * this.sizePixel, this.sizePixel, this.sizePixel);
+        this.ctxUp.clearRect(0, 0, this.w, this.h);
+        this.ctxUp.strokeStyle = 'white';
+        this.ctxUp.lineWidth = 2;
+        this.ctxUp.strokeRect(Math.floor((x - this.camera.x) / this.sizePixel) * this.sizePixel + this.camera.x, Math.floor((y - this.camera.y) / this.sizePixel) * this.sizePixel + this.camera.y, this.sizePixel, this.sizePixel);
     }
 
     drawPixels() {
