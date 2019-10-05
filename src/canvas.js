@@ -44,8 +44,8 @@ class ZonaDraw {
         this.drawPixels();
     }
 
-    uploadToServer() {
-        this.socket.emit('uploadToServer', this.arrDraw);
+    addPixel(pixel) {
+        this.socket.emit('addPixel', pixel);
     }
 
     deletePixel(x, y) {
@@ -84,15 +84,12 @@ class ZonaDraw {
                 x = Math.floor((x - this.camera.x) / this.sizePixel) * this.sizePixel;
                 y = Math.floor((y - this.camera.y) / this.sizePixel) * this.sizePixel;
 
-                this.deletePixel(x, y);
-
-                this.arrDraw.push({
+                this.addPixel({
                     x,
                     y,
                     color: this.palette.getColor
+                    
                 });
-
-                this.uploadToServer();
             }
 
             document.body.style.cursor = 'auto';

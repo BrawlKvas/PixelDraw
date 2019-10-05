@@ -47,6 +47,7 @@ class AdminConsole {
         this.input.style.boxSizing = 'border-box';
         this.input.style.width = '100%';
         this.input.style.padding = '7px 10px 7px 10px';
+        this.input.style.fontFamily = 'Montserrat';
         this.input.style.fontSize = '14px';
         this.input.style.color = '#dfe4ea';
         this.input.style.backgroundColor = '#1e272e';

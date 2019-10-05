@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
 body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    font-family: sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .canvas {
@@ -155,5 +157,4 @@ body {
         height: 20px !important; 
         width: 20px !important;
     }
-    
 }

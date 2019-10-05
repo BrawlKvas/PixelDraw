@@ -1,5 +1,6 @@
+let workFiles = require('./workFiles');
+
 let express = require('express');
-let fs = require('fs');
 
 let app = express();
 app.use(express.static(__dirname));
@@ -14,20 +15,22 @@ app.get('/', (req, res) => {
 });
 
 let bd = [];
+let bgc = '#000000';
 
 io.sockets.on('connection', (socket) => {
     io.sockets.emit('uploadToClient', { data: bd });
 
-    socket.on('uploadToServer', (data) => {
-        bd = data;
+    socket.on('addPixel', (data) => {
+        addPixel(data);
         io.sockets.emit('uploadToClient', { data: bd });
     });
 
     socket.on('adminCommand', (data) => {
         if (data.slice(0, 5) == 'save ') {
-            saveBd(data.slice(5));
+            workFiles.save(data.slice(5), bd);
         } else if (data.slice(0, 5) == 'load ') {
-            loadBd(data.slice(5));
+            bd = workFiles.load(data.slice(5));
+            io.sockets.emit('uploadToClient', { data: bd });
         } else if (data == 'cls bd') {
             bd = [];
             io.sockets.emit('uploadToClient', { data: bd });
@@ -39,17 +42,12 @@ io.sockets.on('connection', (socket) => {
     });
 });
 
-function saveBd(nameFile) {
-    fs.writeFile(nameFile, JSON.stringify(bd), (err, data) => { });
+function addPixel(pixel) {
+    bd = bd.filter(item => {
+        return !(item.x == pixel.x && item.y == pixel.y);
+    });
+
+    if (pixel.color != '#000000') bd.push(pixel);
 }
 
-function loadBd(nameFile) {
-    fs.readFile(nameFile, 'utf8', (err, data) => {
-        try {
-            bd = JSON.parse(data);
-            io.sockets.emit('uploadToClient', { data: bd });
-        } catch (e) {
-            //
-        }
-    });
-}
+
