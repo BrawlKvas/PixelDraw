@@ -112,7 +112,7 @@ class ZonaDraw {
         let lastY = y;
 
         this.canvasUp.ontouchmove = (event) => {
-            e.preventDefault();
+            event.preventDefault();
             event.stopPropagation();
 
             if (Math.abs(x - event.targetTouches[0].clientX) > 8 || Math.abs(y - event.targetTouches[0].clientY) > 8) {
