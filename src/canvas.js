@@ -112,6 +112,7 @@ class ZonaDraw {
         let lastY = y;
 
         this.canvasUp.ontouchmove = (event) => {
+            e.preventDefault();
             event.stopPropagation();
 
             if (Math.abs(x - event.targetTouches[0].clientX) > 8 || Math.abs(y - event.targetTouches[0].clientY) > 8) {
@@ -165,7 +166,7 @@ class ZonaDraw {
         this.resetScreen();
         this.arrDraw.forEach(item => {
             this.ctx.fillStyle = item.color;
-            this.ctx.fillRect(item.x + this.camera.x, item.y + this.camera.y, this.sizePixel, this.sizePixel);
+            this.ctx.fillRect(Math.floor(item.x + this.camera.x), Math.floor(item.y + this.camera.y), this.sizePixel, this.sizePixel);
         });
     }
 
