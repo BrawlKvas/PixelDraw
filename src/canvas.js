@@ -18,11 +18,14 @@ class ZonaDraw {
 
         this.bgc = '#000000';
 
-        this.coordinatePanel = document.getElementById('coordinatePanel');
-        document.addEventListener('mousemove', this.initCoordinate.bind(this));
-
-        this.canvasUp.addEventListener('mousedown', this.eventMouse.bind(this));
-
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            this.canvasUp.addEventListener('touchstart', this.eventTouch.bind(this), false);
+        } else {
+            this.coordinatePanel = option.coordinatePanel;
+            document.addEventListener('mousemove', this.initCoordinate.bind(this));
+            this.canvasUp.addEventListener('mousedown', this.eventMouse.bind(this));
+        }
+    
         window.onresize = this.updateSizeCanvas.bind(this);
 
         this.camera = {
@@ -94,6 +97,54 @@ class ZonaDraw {
 
             document.body.style.cursor = 'auto';
             this.canvasUp.onmousemove = null;
+        }
+    }
+
+    eventTouch(e) {
+        e.stopPropagation();
+
+        let x = e.targetTouches[0].clientX;
+        let y = e.targetTouches[0].clientY;
+
+        let click = true;
+
+        let lastX = x;
+        let lastY = y;
+
+        this.canvasUp.ontouchmove = (event) => {
+            event.stopPropagation();
+
+            if (Math.abs(x - event.targetTouches[0].clientX) > 8 || Math.abs(y - event.targetTouches[0].clientY) > 8) {
+        
+                click = false;
+
+                this.camera.x += event.targetTouches[0].clientX - lastX;
+                this.camera.y += event.targetTouches[0].clientY - lastY;
+
+                lastX = event.targetTouches[0].clientX;
+                lastY = event.targetTouches[0].clientY;
+
+                this.drawPixels();
+
+            }
+        }
+
+        this.canvasUp.ontouchend = (event) => {
+            event.stopPropagation();
+
+            if (click) {
+                x = Math.floor((x - this.camera.x) / this.sizePixel) * this.sizePixel;
+                y = Math.floor((y - this.camera.y) / this.sizePixel) * this.sizePixel;
+
+                this.addPixel({
+                    x,
+                    y,
+                    color: this.palette.getColor
+                    
+                });
+            }
+
+            this.canvasUp.ontouchmove = null;
         }
     }
 

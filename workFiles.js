@@ -5,7 +5,11 @@ function save(nameFile, data) {
 }
 
 function load(nameFile, bd) {
-    return JSON.parse(fs.readFileSync(nameFile, 'utf8', (err) => {}));
+    try {
+        return JSON.parse(fs.readFileSync(nameFile, 'utf8', (err) => {}));
+    } catch(e) {
+
+    }
 }
 
 module.exports.save = save;

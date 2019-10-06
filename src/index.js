@@ -15,6 +15,7 @@ let canvas = new ZonaDraw({
      canvas: document.getElementById('canvas'),
      canvasUp: document.getElementById('canvasUp'),
      palette: palette,
+     coordinatePanel: document.getElementById('coordinatePanel'),
      socket 
 });
 
