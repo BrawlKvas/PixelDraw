@@ -101,10 +101,11 @@ class ZonaDraw {
     }
 
     eventTouch(e) {
+        e.preventDefault();
         e.stopPropagation();
 
-        let x = e.targetTouches[0].pageX;
-        let y = e.targetTouches[0].pageY;
+        let x = e.targetTouches[0].clientX;
+        let y = e.targetTouches[0].clientY;
 
         let click = true;
 
@@ -115,12 +116,12 @@ class ZonaDraw {
             event.preventDefault();
             event.stopPropagation();
 
-            if (Math.abs(x - event.targetTouches[0].pageX) > 8 || Math.abs(y - event.targetTouches[0].pageY) > 8) {
+            if (Math.abs(x - event.targetTouches[0].clientX) > 8 || Math.abs(y - event.targetTouches[0].clientY) > 8) {
         
                 click = false;
 
-                this.camera.x += event.targetTouches[0].pageX - lastX;
-                this.camera.y += event.targetTouches[0].pageY - lastY;
+                this.camera.x += event.targetTouches[0].clientX - lastX;
+                this.camera.y += event.targetTouches[0].clientY - lastY;
 
                 lastX = event.targetTouches[0].pageX;
                 lastY = event.targetTouches[0].pageY;
@@ -131,6 +132,7 @@ class ZonaDraw {
         }
 
         this.canvasUp.ontouchend = (event) => {
+            event.preventDefault();
             event.stopPropagation();
 
             if (click) {
