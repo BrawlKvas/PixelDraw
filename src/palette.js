@@ -15,7 +15,7 @@ class Palette {
             this.selectedElement.classList.remove('color-active');
             e.target.classList.add('color-active');
 
-            this.selectedElement = e.target; 
+            this.selectedElement = e.target;
         }
     }
 

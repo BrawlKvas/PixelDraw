@@ -25,7 +25,7 @@ class ZonaDraw {
             document.addEventListener('mousemove', this.initCoordinate.bind(this));
             this.canvasUp.addEventListener('mousedown', this.eventMouse.bind(this));
         }
-    
+
         window.onresize = this.updateSizeCanvas.bind(this);
 
         this.camera = {
@@ -91,7 +91,7 @@ class ZonaDraw {
                     x,
                     y,
                     color: this.palette.getColor
-                    
+
                 });
             }
 
@@ -117,7 +117,7 @@ class ZonaDraw {
             event.stopPropagation();
 
             if (Math.abs(x - event.targetTouches[0].clientX) > 8 || Math.abs(y - event.targetTouches[0].clientY) > 8) {
-        
+
                 click = false;
 
                 this.camera.x += event.targetTouches[0].clientX - lastX;
@@ -143,7 +143,7 @@ class ZonaDraw {
                     x,
                     y,
                     color: this.palette.getColor
-                    
+
                 });
             }
 

@@ -16,7 +16,7 @@ let canvas = new ZonaDraw({
      canvasUp: document.getElementById('canvasUp'),
      palette: palette,
      coordinatePanel: document.getElementById('coordinatePanel'),
-     socket 
+     socket
 });
 
 let c = new AdminConsole({
