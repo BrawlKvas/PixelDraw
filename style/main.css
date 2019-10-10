@@ -75,6 +75,11 @@ body {
     width: 42px !important;
 }
 
+.input-color {
+    padding: 0;
+    outline: none;
+}
+
 .coordinate {
     position: absolute;
     left: 45px; 
