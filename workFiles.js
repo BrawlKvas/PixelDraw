@@ -5,10 +5,14 @@ function save(nameFile, data) {
 }
 
 function load(nameFile, bd) {
-    try {
-        return JSON.parse(fs.readFileSync(nameFile, 'utf8', (err) => {}));
-    } catch(e) {
+    let result;
 
+    try {
+        result = fs.readFileSync(nameFile, 'utf8', (err) => {});
+
+        return JSON.parse(result);
+    } catch(e) {
+        return [];
     }
 }
 

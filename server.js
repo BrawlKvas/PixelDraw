@@ -33,7 +33,7 @@ io.sockets.on('connection', (socket) => {
             io.sockets.emit('uploadToClient', { data: bd });
         } else if (data == 'cls bd') {
             bd = [];
-            io.sockets.emit('uploadToClient', { data: bd });
+            io.sockets.emit('uploadToClient', { dsata: bd });
         } else if (data == 'length bd') {
             console.log(bd.length);
         } else if (data == 'cls') {
