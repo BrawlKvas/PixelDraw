@@ -8,6 +8,7 @@ let p = document.getElementById('palette');
 
 let palette = new Palette({
      palette: p,
+     colorPicker: document.getElementsByClassName('input-color')[0],
      selectedElement: p.children[0].children[0],
 });
 
