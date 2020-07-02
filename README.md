@@ -1,2 +1,3 @@
-# pixelDraw
-http://badscript.ru
+# PixelDraw
+
+### Аналог pixelzone.io с консолью для управления холстом
